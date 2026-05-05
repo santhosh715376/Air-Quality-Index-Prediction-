@@ -1,0 +1,14 @@
+click
+colorama
+Flask
+gunicorn
+itsdangerous
+Jinja2
+joblib
+MarkupSafe
+numpy
+pandas
+scikit-learn==1.7.0
+scipy
+threadpoolctl
+Werkzeug
