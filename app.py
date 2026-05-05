@@ -1,7 +1,7 @@
 from pathlib import Path
-import pickle
 import warnings
 
+import joblib
 import pandas as pd
 from flask import Flask, render_template, request
 from sklearn.ensemble import ExtraTreesRegressor
@@ -28,8 +28,7 @@ def train_and_persist_model():
     )
     model_instance.fit(data[FEATURE_COLUMNS], data[TARGET_COLUMN])
 
-    with MODEL_PATH.open("wb") as model_file:
-        pickle.dump(model_instance, model_file)
+    joblib.dump(model_instance, MODEL_PATH, compress=3)
 
     return model_instance
 
@@ -39,8 +38,7 @@ def load_model():
         try:
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
-                with MODEL_PATH.open("rb") as model_file:
-                    return pickle.load(model_file)
+                return joblib.load(MODEL_PATH)
         except Exception as exc:
             print(
                 "Model load failed due to compatibility issue. "

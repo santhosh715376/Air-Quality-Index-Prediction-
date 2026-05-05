@@ -1,5 +1,5 @@
 import argparse
-import pickle
+import joblib
 from pathlib import Path
 
 import pandas as pd
@@ -41,8 +41,7 @@ def train_and_save_model(
     model.fit(frame[FEATURE_COLUMNS], frame[TARGET_COLUMN])
 
     model_path.parent.mkdir(parents=True, exist_ok=True)
-    with model_path.open("wb") as model_file:
-        pickle.dump(model, model_file)
+    joblib.dump(model, model_path, compress=3)
 
     return model_path, len(frame)
 
